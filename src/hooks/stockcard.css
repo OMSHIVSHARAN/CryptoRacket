@@ -1,0 +1,48 @@
+.stock-card {
+  background: linear-gradient(135deg, #ffcc00, #ff0066);
+  border-radius: 12px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stock-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0px 12px 25px rgba(0, 0, 0, 0.2);
+}
+
+.stock-card h3 {
+  color: #fff;
+  font-family: "Roboto", sans-serif;
+  margin: 0;
+}
+
+.stock-card .price {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #00ff99;
+}
+
+.stock-card .sentiment-bar {
+  height: 10px;
+  border-radius: 5px;
+  background-color: rgba(255, 255, 255, 0.2);
+  margin-top: 8px;
+  position: relative;
+  overflow: hidden;
+}
+
+.stock-card .sentiment-bar::after {
+  content: "";
+  height: 100%;
+  width: 70%;
+  background-color: #00ff99;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: width 0.3s ease;
+}
+
+.stock-card:hover .sentiment-bar::after {
+  width: 85%;
+}

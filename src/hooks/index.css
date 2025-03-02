@@ -1,0 +1,14 @@
+body {
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(135deg, #1e1e2f, #2c2c54);
+  color: white;
+}
+
+.app {
+  text-align: center;
+}
+
+main {
+  padding: 20px;
+}

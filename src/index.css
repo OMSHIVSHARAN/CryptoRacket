@@ -1,0 +1,93 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  @apply bg-gray-900;
+  color: white;
+}
+
+.header {
+  @apply sticky top-0 z-50 bg-gray-800/80 backdrop-blur-sm p-4 flex items-center justify-center gap-4;
+}
+
+.header-logo {
+  @apply w-10 h-10;
+}
+
+.stock-list {
+  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-4;
+}
+
+.stock-card {
+  @apply bg-gradient-to-br from-yellow-400 to-pink-500 rounded-xl p-6 shadow-lg 
+         transform transition-all duration-300 hover:-translate-y-2 hover:shadow-xl;
+}
+
+.stock-card h2 {
+  @apply text-2xl font-bold text-white mb-1;
+}
+
+.stock-card h3 {
+  @apply text-lg text-white/90 mb-4;
+}
+
+.stock-card .price {
+  @apply text-3xl font-bold text-emerald-300 mb-4;
+}
+
+.progress-container {
+  @apply mb-4;
+}
+
+.progress-label {
+  @apply text-sm text-white/90 mb-1;
+}
+
+.progress-bar {
+  @apply h-2 bg-white/30 rounded-full overflow-hidden relative;
+}
+
+.progress-bar::after {
+  content: "";
+  @apply absolute inset-0 bg-emerald-400 rounded-full transition-all duration-300;
+}
+
+.progress-bar.hype::after {
+  @apply bg-purple-400;
+}
+
+.hype-cards {
+  @apply grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-4;
+}
+
+.hype-card {
+  @apply bg-gray-800/50 rounded-xl p-6 backdrop-blur-sm
+         transform transition-all duration-300 hover:-translate-y-2 hover:shadow-xl;
+}
+
+.hype-card img {
+  @apply w-16 h-16 mx-auto mb-4 rounded-full;
+}
+
+.hype-card p {
+  @apply text-lg font-medium mb-2;
+}
+
+footer {
+  @apply mt-12 py-8 text-center text-lg font-medium text-white/80;
+}
+
+section h2 {
+  @apply text-2xl font-bold mb-6 text-center;
+}
+
+.positive {
+  @apply from-emerald-400 to-teal-500;
+}
+
+.negative {
+  @apply from-red-400 to-pink-500;
+}
