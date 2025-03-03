@@ -1,0 +1,105 @@
+Metadata-Version: 2.1
+Name: tasklist
+Version: 1.2.1
+Summary: A library to manage lists of commands with re-trial.
+Home-page: https://gitlab.com/buddyns/tasklist
+Author: BuddyNS.com
+Author-email: support@buddyns.com
+License: UNKNOWN
+Platform: UNKNOWN
+Classifier: Operating System :: POSIX
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 2
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Topic :: Software Development
+Classifier: Topic :: System
+Description-Content-Type: text/markdown
+
+# Overview
+
+![coverage](https://gitlab.com/BuddyNS/tasklist/badges/master/coverage.svg)
+
+A simple way to ensure that a list of commands is executed successfully, or re-tried.
+
+Tasklist allows to the following:
+
+- Execute lists of commands (tasks)
+- Verify their success
+- Re-execute commands that failed, order-preserving
+- Control temporary and permanent command statuses
+- Discard tasks with temporary failures after a tryout
+- Discard tasks with temporary failures after a timeout
+- Persist the list of tasks so it's reloaded when your program fails
+
+# Main applications
+
+- DevOps pipelines which require multiple commands to reach a desired state
+- Servers which accept operations which may fail and are required to retry them
+- Event Sourcing architectures where events are executed with commands
+- Manual processes which may be interrupted for a failure, and need to be resumed from there
+
+# Examples
+
+## Ensure complete termination of interrupted process
+
+```python
+from tasklist import TaskList, Task
+
+# make sure all of the following commands are executed
+commands = [
+    "tar cjvf maillog.tbz /var/log/maillog",
+    "rm -f /var/log/maillog",
+    "service myservice restart"
+]
+
+# create a tasklist
+tl = TaskList()
+for cmd in commands:
+    tl.add(Task(cmd=cmd.split()))
+
+if tl.run_all():
+    # some task failed. Sleep a while and retry
+    tl.run_all()
+```
+
+## Manage temporary and permanent failures
+
+```python
+import time
+from tasklist import TaskList, Task
+
+t = Task(cmd="false")
+t.run()                     # False (executed with failure)
+t.failed_retry()            # False (failed with non-retriable exit status)
+time.sleep(10)
+t.age()                     # 10 (created 10 seconds ago)
+
+t = Task(cmd="python", args=["-c", "import sys; sys.exit(2)"])
+t.run_all()                 # False
+t.failed_retry()            # True (failed with retriable exit status)
+```
+
+## Making the queue persistent
+
+```python
+from tasklist import TaskList, Task
+
+# automatically persist the tasklist at the given path in the filesystem
+tl = TaskList(wrkdir='/tmp/mytasklist', autosync=True)
+tl.add(Task(cmd="true"))
+tl.add(Task(cmd="false"))
+del tl
+
+new_tl = TaskList(wrkdir='/tmp/mytasklist', autosync=True)
+len(new_tl)                     # 2 tasks
+```
+
+# Support
+
+This is open-source software contributed by the [BuddyNS](https://www.buddyns.com) team. The project is hosted at [https://gitlab.com/BuddyNS/tasklist](https://gitlab.com/BuddyNS/tasklist).
+
+Please do not contact BuddyNS for support with this library. You can get general support on Python from the great people of the `#python` channel on the [freenode IRC network](https://webchat.freenode.net).
+
+
